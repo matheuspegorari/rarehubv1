@@ -38,3 +38,6 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+### Credentials ###
+src/main/kotlin/dev/pegorari/rarehub/enums/Credentials.kt
