@@ -1,10 +1,7 @@
 package dev.pegorari.rarehub.controller
 
 import dev.pegorari.rarehub.dto.ProductRequest
-import dev.pegorari.rarehub.model.LoginResponse
 import dev.pegorari.rarehub.service.FichaService
-import org.apache.coyote.http11.Constants.a
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,20 +12,17 @@ import reactor.core.publisher.Mono
 @RequestMapping("/fci")
 class FichaController(private val service: FichaService) {
 
-
     @GetMapping
-    fun generateFci(@RequestBody products: List<ProductRequest>) {
-        service.getBearerToken().flatMap { response ->
-            val bearerToken: String? = response.bearerToken
-            if (bearerToken != null) {
-
-            } else {
-                Mono.just(ResponseEntity.status(400).body("Erro ao realizar Login"))
+    fun teste(@RequestBody products : List<ProductRequest>): Mono<String> {
+        return service.getBearerToken()
+            .flatMap { login ->
+                val bearerToken = login.bearerToken
+                service.getFCI(bearerToken!!, products)
+                    .flatMap {
+                        service.getVisualizaFCI(bearerToken)
+                        // logout
+                    }
             }
-
-        }
-
-
 
     }
 }
