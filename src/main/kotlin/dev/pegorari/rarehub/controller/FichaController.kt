@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 class FichaController(private val service: FichaService) {
 
     @PostMapping
-    fun teste(@RequestBody products : List<ProductRequest>): Mono<String> {
+    fun getFCIFromProducts(@RequestBody products : List<ProductRequest>): Mono<String> {
         return service.getBearerToken()
             .flatMap { login ->
                 val bearerToken = login.bearerToken
